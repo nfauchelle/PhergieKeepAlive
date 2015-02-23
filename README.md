@@ -24,7 +24,9 @@ See Phergie documentation for more information on
 ```php
 new \Phergie\Irc\Plugin\React\KeepAlive\Plugin(array(
     // Seconds of inactivity before attmping reconnect
-    'timeout' => 600
+    'timeout' => 600,
+    // Quit message on reconnect
+    'quitMessage' => 'Ping timeout, reconnecting...'
 ))
 ```
 
