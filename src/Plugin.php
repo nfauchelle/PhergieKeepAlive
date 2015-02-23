@@ -112,7 +112,7 @@ class Plugin extends AbstractPlugin
     {
         foreach ($this->lastActivity as $hash => &$details) {
             if ((time() - $details['last_time']) > $this->timeout) {
-                $logger->debug('Resetting connection, timeout reached!');
+                $logger->debug('Resetting connection ' . $this->getConnectionMask($connection) . ', timeout reached!');
                 $details['queue']->ircQuit('Master has killed me!');
                 // Update the last_time to prevent this hash from being clobbered
                 // But we can't unset the hash, since the quit event is yet to return
