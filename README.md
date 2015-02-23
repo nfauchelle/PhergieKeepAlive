@@ -1,6 +1,6 @@
 # PhergieKeepAlive
 
-[Phergie](http://github.com/phergie/phergie-irc-bot-react/) plugin which monitors when the last activity on a connection was and if it exceeds a certain time limit the correction is closed and re-created. Server ping/pongs are included, so in a slow chat room there would stil be enough activity and the only time the timeout trigged is due to a network issue.
+[Phergie](http://github.com/phergie/phergie-irc-bot-react/) plugin which monitors a connection for in-activity, and if the timeout is reached then it will attempt to reconnect.
 
 [![Build Status](https://secure.travis-ci.org/nfauchelle/PhergieKeepAlive.png?branch=master)](http://travis-ci.org/nfauchelle/PhergieKeepAlive)
 
