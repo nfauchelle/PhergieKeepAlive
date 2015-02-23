@@ -11,7 +11,7 @@ The recommended method of installation is [through composer](http://getcomposer.
 ```JSON
 {
     "require": {
-        "nfauchelle/PhergieKeepAlive": "dev-master"
+        "nfauchelle/phergie-keep-alive": "dev-master"
     }
 }
 ```
