@@ -1,5 +1,5 @@
 {
-    "name": "nfauchelle/PhergieKeepAlive",
+    "name": "nfauchelle/phergie-keep-alive",
     "description": "Phergie plugin which monitors when the last activity on a connection was and if it exceeds a certain time limit the connection is closed and re-created",
     "keywords": [ "phergie", "irc", "bot", "plugin" ],
     "license": "BSD-2-Clause",
@@ -13,7 +13,7 @@
     "support": {
         "email": "team@phergie.org",
         "irc": "irc://irc.freenode.net/phergie",
-        "issues": "https://github.com/PhergieKeepAlive/issues",
+        "issues": "https://github.com/nfauchelle/PhergieKeepAlive/issues",
         "source": "https://github.com/nfauchelle/PhergieKeepAlive"
     },
     "minimum-stability": "dev",
