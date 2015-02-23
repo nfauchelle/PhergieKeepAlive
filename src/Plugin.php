@@ -58,11 +58,11 @@ class Plugin extends AbstractPlugin
      */
     public function handleReconnect(ConnectionInterface $connection, LoggerInterface $logger)
     {
-        $mask = $this->getConnectionMask($connection);
+        $hash = spl_object_hash($connection);
         // We unset the mask here so we can get the updated event queue when the activity function is hit
-        unset($this->lastActivity[$mask]);
+        unset($this->lastActivity[$hash]);
 
-        $logger->debug('Attemping reconnect: ' . $mask);
+        $logger->debug('Attemping reconnect for ' . $this->getConnectionMask($connection));
 
         $client = $this->getClient();
         $client->addConnection($connection);
@@ -77,12 +77,13 @@ class Plugin extends AbstractPlugin
      */
     public function onActivity(Event $event, Queue $queue)
     {
-        $mask = $this->getConnectionMask($event->getConnection());
-        if (!isset($this->lastActivity[$mask])) {
-            $this->logger->debug('Added connection ' . $mask);
-            $this->lastActivity[$mask] = ['queue' => $queue, 'last_time' => time()];
+        $connection = $event->getConnection();
+        $hash = spl_object_hash($connection);
+        if (!isset($this->lastActivity[$hash])) {
+            $this->logger->debug('Added connection ' . $this->getConnectionMask($connection));
+            $this->lastActivity[$hash] = ['queue' => $queue, 'last_time' => time()];
         }
-        $this->lastActivity[$mask]['last_time'] = time();
+        $this->lastActivity[$hash]['last_time'] = time();
     }
 
     /**
@@ -109,12 +110,12 @@ class Plugin extends AbstractPlugin
      */
     public function onTick(WriteStream $write, ConnectionInterface $connection, LoggerInterface $logger)
     {
-        foreach ($this->lastActivity as $mask => &$details) {
+        foreach ($this->lastActivity as $hash => &$details) {
             if ((time() - $details['last_time']) > $this->timeout) {
                 $logger->debug('Resetting connection, timeout reached!');
                 $details['queue']->ircQuit('Master has killed me!');
-                // Update the last_time to prevent this mask from being clobbered
-                // But we can't unset the mask, since the quit event is yet to return
+                // Update the last_time to prevent this hash from being clobbered
+                // But we can't unset the hash, since the quit event is yet to return
                 $details['last_time'] = time();
             }
         }
