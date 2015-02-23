@@ -11,7 +11,7 @@ The recommended method of installation is [through composer](http://getcomposer.
 ```JSON
 {
     "require": {
-        "nfauchelle\PhergieKeepAlive": "dev-master"
+        "nfauchelle\\PhergieKeepAlive": "dev-master"
     }
 }
 ```
@@ -23,7 +23,7 @@ See Phergie documentation for more information on
 
 ```php
 new \Phergie\Irc\Plugin\React\KeepAlive\Plugin(array(
-    // Seconds of inactivity before attmping reconnect
+    // Seconds of inactivity before attempting reconnect
     'timeout' => 600
 ))
 ```
