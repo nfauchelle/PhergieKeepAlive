@@ -28,6 +28,7 @@ class Plugin extends AbstractPlugin
 
     public $lastActivity = array();
     public $timeout = 600;
+    public $quitMessage = 'Ping timeout, reconnecting...';
 
     public function getSubscribedEvents()
     {
@@ -47,6 +48,9 @@ class Plugin extends AbstractPlugin
     {
         if (isset($config['timeout'])) {
             $this->timeout = $config['timeout'];
+        }
+        if (isset($config['quitMessage'])) {
+            $this->quitMessage = (string) $config['quitMessage'];
         }
     }
 
@@ -112,7 +116,7 @@ class Plugin extends AbstractPlugin
         foreach ($this->lastActivity as $mask => &$details) {
             if ((time() - $details['last_time']) > $this->timeout) {
                 $logger->debug('Resetting connection, timeout reached!');
-                $details['queue']->ircQuit('Master has killed me!');
+                $details['queue']->ircQuit($this->quitMessage);
                 // Update the last_time to prevent this mask from being clobbered
                 // But we can't unset the mask, since the quit event is yet to return
                 $details['last_time'] = time();
