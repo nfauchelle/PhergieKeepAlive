@@ -11,10 +11,16 @@ The recommended method of installation is [through composer](http://getcomposer.
 ```JSON
 {
     "require": {
-        "nfauchelle/phergie-keep-alive": "dev-master"
+        "nfauchelle/phergie-keep-alive": "~1.0.0"
     }
 }
 ```
+or use the command below, it will automatically detect the latest version and bind it with `~`.
+
+```
+composer require nfauchelle/phergie-keep-alive
+```
+
 
 See Phergie documentation for more information on
 [installing and enabling plugins](https://github.com/phergie/phergie-irc-bot-react/wiki/Usage#plugins).
