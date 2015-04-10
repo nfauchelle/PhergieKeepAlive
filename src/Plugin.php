@@ -26,6 +26,7 @@ use \Psr\Log\LoggerInterface;
 class Plugin extends AbstractPlugin
 {
 
+    protected $allowDisconnect = false;
     public $lastActivity = array();
     public $timeout = 600;
     public $quitMessage = 'Ping timeout, reconnecting...';
@@ -35,7 +36,8 @@ class Plugin extends AbstractPlugin
         return array(
             'irc.received.each' => 'onActivity',
             'irc.tick' => 'onTick',
-            'connect.end' => 'handleReconnect'
+            'connect.end' => 'handleReconnect',
+            'command.quit' => 'handleQuitCommand'
         );
     }
 
@@ -62,6 +64,9 @@ class Plugin extends AbstractPlugin
      */
     public function handleReconnect(ConnectionInterface $connection, LoggerInterface $logger)
     {
+        if ($this->allowDisconnect) {
+            return;
+        }
         $mask = $this->getConnectionMask($connection);
         // We unset the mask here so we can get the updated event queue when the activity function is hit
         unset($this->lastActivity[$mask]);
@@ -70,6 +75,16 @@ class Plugin extends AbstractPlugin
 
         $client = $this->getClient();
         $client->addConnection($connection);
+    }
+
+    /**
+     * Sets a flag to allow the bot to disconnect. For example if the owner wants to kill the bot from IRC.
+     *
+     * @param Event $event
+     * @param Queue $queue
+     */
+    public function handleQuitCommand(Event $event, Queue $queue) {
+        $this->allowDisconnect = true;
     }
 
     /**
